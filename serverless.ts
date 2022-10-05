@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import hello from '@functions/hello';
+import functions from './serverless/functions';
 
 const serverlessConfiguration: AWS = {
   service: 'urlshortener',
