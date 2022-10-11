@@ -1,8 +1,9 @@
+import { dynamo } from "@libs/dynamo";
 import type { AWS } from "@serverless/typescript";
 
 const functions: AWS["functions"] = {
-  setUrl: {
-    handler: "src/functions/setUrl/index.handler",
+  setReminder: {
+    handler: "src/functions/setReminder/index.handler",
     events: [
       {
         httpApi: {
@@ -12,13 +13,16 @@ const functions: AWS["functions"] = {
       }
     ]
   },
-  getUrl: {
-    handler: "src/functions/getUrl/index.handler",
+  sendReminder: {
+    handler: "src/functions/sendReminder/index.handler",
     events: [
       {
-        httpApi: {
-          path: "/{code}",
-          method: "get"
+        stream: {
+          type: "dynamodb",
+          arn: {
+            "Fn::GetAtt": ["reminderTable", "StreamArn"]
+          },
+          filterPatterns: [ { eventName: ["REMOVE"] } ] 
         }
       }
     ]
