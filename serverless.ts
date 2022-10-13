@@ -46,7 +46,7 @@ const serverlessConfiguration: AWS = {
   },
   package: { individually: true },
   custom: {
-    reminderTableName: '${sls:stage}-remonder-table',
+    reminderTableName: '${sls:stage}-reminder-table',
     esbuild: {
       bundle: true,
       minify: false,
