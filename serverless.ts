@@ -4,7 +4,7 @@ import functions from './serverless/functions';
 import dynamoResources from './serverless/dynamoResources';
 
 const serverlessConfiguration: AWS = {
-  service: 'tasksReminder',
+  service: 'liveChat',
   frameworkVersion: '3',
   plugins: ['serverless-esbuild', 'serverless-iam-roles-per-function'],
   provider: {
@@ -17,8 +17,8 @@ const serverlessConfiguration: AWS = {
         Effect: 'Allow',
         Action: 'dynamodb:*',
         Resource: [
-          'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.reminderTableName}',
-          'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.reminderTableName}/index/index1'
+          'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.roomConnectionTableName}',
+          'arn:aws:dynamodb:${self:provider.region}:${aws:accountId}:table/${self:custom.roomConnectionTableName}/index/index1'
         ]
         }
     ],    
@@ -30,13 +30,7 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
 
-      reminderTable: '${self:custom.reminderTableName}',
-      baseUrl: {
-        'Fn::Join': [
-          '',
-          ['https://', { Ref: 'HttpApi'}, '.execute-api.${self:provider.region}.amazonaws.com', ],
-        ],
-      },
+      roomConnectionTable: '${self:custom.roomConnectionTableName}',
     },
   },
   // import the function via paths
@@ -49,7 +43,7 @@ const serverlessConfiguration: AWS = {
   },
   package: { individually: true },
   custom: {
-    reminderTableName: '${sls:stage}-reminder-table',
+    roomConnectionTableName: '${sls:stage}-room-connection-table',
     esbuild: {
       bundle: true,
       minify: false,
