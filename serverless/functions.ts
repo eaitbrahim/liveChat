@@ -21,6 +21,16 @@ const functions: AWS["functions"] = {
       }
     ]
   },
+  joinRmessageoom: {
+    handler: "src/functions/message/index.handler",
+    events: [
+      {
+        websocket: {
+          route: 'message'
+        }
+      }
+    ]
+  },
 };
 
 export default functions;
