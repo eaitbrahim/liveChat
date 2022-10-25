@@ -21,12 +21,22 @@ const functions: AWS["functions"] = {
       }
     ]
   },
-  joinRmessageoom: {
+  message: {
     handler: "src/functions/message/index.handler",
     events: [
       {
         websocket: {
           route: 'message'
+        }
+      }
+    ]
+  },
+  disconnect: {
+    handler: "src/functions/disconnect/index.handler",
+    events: [
+      {
+        websocket: {
+          route: '$disconnect'
         }
       }
     ]
